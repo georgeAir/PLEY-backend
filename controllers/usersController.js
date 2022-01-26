@@ -48,3 +48,11 @@ users.post('/login', (req, res) => {
         }
     })
 })
+
+users.delete('/logout', (req, res) => {
+    req.session.destroy(() => {
+        res.status(200).json({ msg: 'users logged out' })
+    })
+})
+
+module.exports = users;
