@@ -1,6 +1,6 @@
 const express = require('express')
 const bars = express.Router()
-const Bar = require('../models/barsModel')
+const Bar = require('../models/bars')
 
 // GET (index) list of bars
 bars.get('/', (req, res) => {

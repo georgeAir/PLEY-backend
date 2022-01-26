@@ -58,7 +58,7 @@ app.use(express.json())
 
 
 //controllers
-app.use('/restaurant', isAuthenticated, require('./controller/restaurantsController'));
+app.use('/restaurant', isAuthenticated, require('./controllers/restaurantsController'));
 app.use('/bars', isAuthenticated, require('./controllers/barsController'));
 app.use('/users', require('./controllers/usersController'));
 

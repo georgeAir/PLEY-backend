@@ -9,4 +9,4 @@ const barSchema = new Schema({
   location: [{type: Number}]
 })
 
-module.exports = model('BAR', barSchema)
+module.exports = model('Bar', barSchema)
