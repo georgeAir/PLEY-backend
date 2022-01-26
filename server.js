@@ -58,9 +58,9 @@ app.use(express.json())
 
 
 //controllers
-app.use('/restaurant', isAuthenticated, require('./controllers/restaurantsController'));
+app.use('/restaurant', isAuthenticated, require('./controller/restaurantsController'));
 app.use('/bars', isAuthenticated, require('./controllers/barsController'));
-app.use('/users', require('./controllers /usersController'));
+app.use('/users', require('./controllers/usersController'));
 
 app.listen(PORT, ()=> {
     console.log('listening on port andre 3k')
