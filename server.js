@@ -5,7 +5,7 @@ const PORT = 3003;
 const mongoose = require('mongoose');
 const MONGODB_URI = 'mongodb://127.0.0.1:27017/pleyDB'
 const cors = require('cors');
-const session = require('express-session
+const session = require('express-session')
 const yelp = require('yelp-fusion')
 
 const apiKey = process.env.APIKEY;
@@ -70,10 +70,10 @@ app.use('/users', require('./controllers/usersController'));
 
 app.get('yelp/:term', (res, req) =>{
   const searchRequest = {
-    term: req.params.term +  '+resturant',
+    term: req.params.term +  '+restaurant',
     location: 'chicago'
   };
-  
+
   client.search(searchRequest)
   .then(response.jsonBody.businesses)
   .then(data => res.send(data));
