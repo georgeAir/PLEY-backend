@@ -7,9 +7,9 @@ const MONGODB_URI = 'mongodb://127.0.0.1:27017/pleyDB'
 const cors = require('cors');
 const session = require('express-session')
 const yelp = require('yelp-fusion')
-
-const apiKey = process.env.APIKEY;
-const client = yelp.client('YOUR_API_KEY');
+const apiKey = process.env.REACT_APP_API_KEY
+// const apiKey = "ue2_GLAE9FpEp0NX5hhSw_6qzFoN-MlrnL1Sm7BJUnuixUy4u3MnLp_FqUxqpbyMTzqkqLujFbQRfOgFZUP19cxZo5da-uDeU3OnQJ1KhmPZg1LZssAXl494sszyYXYx"
+const client = yelp.client(apiKey);
 
 //SETUP CORS middleware
 const whitelist = ['http://localhost:3000', 'your heroku application']
@@ -68,16 +68,20 @@ app.use('/restaurant', isAuthenticated, require('./controllers/restaurantsContro
 app.use('/bars', isAuthenticated, require('./controllers/barsController'));
 app.use('/users', require('./controllers/usersController'));
 
-app.get('yelp/:term', (res, req) =>{
+app.get('/', (req, res) =>{
+  res.send('hello')
+})
+
+app.get('/yelp/:term', (req, res) => {
   const searchRequest = {
-    term: req.params.term +  '+restaurant',
+    term: req.params.term + '+restaurants',
     location: 'chicago'
-  };
+  }
 
   client.search(searchRequest)
-  .then(response.jsonBody.businesses)
+  .then(response => response.jsonBody.businesses)
   .then(data => res.send(data));
-});
+})
 
 
 
