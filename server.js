@@ -1,10 +1,15 @@
+require('dotenv').config()
 const express = require('express');
 const app = express();
 const PORT = 3003;
 const mongoose = require('mongoose');
 const MONGODB_URI = 'mongodb://127.0.0.1:27017/pleyDB'
 const cors = require('cors');
-const session = require('express-session');
+const session = require('express-session
+const yelp = require('yelp-fusion')
+
+const apiKey = process.env.APIKEY;
+const client = yelp.client('YOUR_API_KEY');
 
 //SETUP CORS middleware
 const whitelist = ['http://localhost:3000', 'your heroku application']
@@ -57,10 +62,25 @@ const isAuthenticated = (req, res, next) => {
 app.use(express.json())
 
 
+
 //controllers
 app.use('/restaurant', isAuthenticated, require('./controllers/restaurantsController'));
 app.use('/bars', isAuthenticated, require('./controllers/barsController'));
 app.use('/users', require('./controllers/usersController'));
+
+app.get('yelp/:term', (res, req) =>{
+  const searchRequest = {
+    term: req.params.term +  '+resturant',
+    location: 'chicago'
+  };
+  
+  client.search(searchRequest)
+  .then(response.jsonBody.businesses)
+  .then(data => res.send(data));
+});
+
+
+
 
 app.listen(PORT, ()=> {
     console.log('listening on port andre 3k')
