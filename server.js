@@ -1,18 +1,20 @@
 require('dotenv').config()
 const express = require('express');
 const app = express();
-const PORT = 3003;
 const mongoose = require('mongoose');
-const MONGODB_URI = 'mongodb://127.0.0.1:27017/pleyDB'
+const MONGODB_URI = process.env.MONGODB_URI
 const cors = require('cors');
 const session = require('express-session')
-const yelp = require('yelp-fusion')
+require('dotenv').config()
+const yelp = require('yelp-fusion');
 const apiKey = process.env.REACT_APP_API_KEY
+const PORT = process.env.PORT;
+const MongoDBStore = require('connect-mongodb-session')(session)
 // const apiKey = "ue2_GLAE9FpEp0NX5hhSw_6qzFoN-MlrnL1Sm7BJUnuixUy4u3MnLp_FqUxqpbyMTzqkqLujFbQRfOgFZUP19cxZo5da-uDeU3OnQJ1KhmPZg1LZssAXl494sszyYXYx"
 const client = yelp.client(apiKey);
 
 //SETUP CORS middleware
-const whitelist = ['http://localhost:3000', 'your heroku application']
+const whitelist = ['http://localhost:3000', 'https://pley-frontend.herokuapp.com']
 const corsOptions = {
     origin: (origin, callback) => {
         if(whitelist.indexOf(origin) !== -1 || !origin){
@@ -28,12 +30,22 @@ const corsOptions = {
 app.use(cors(corsOptions))
 
 
-const SESSION_SECRET = 'asdf'
+const SESSION_SECRET = process.env.SESSION_SECRET
+
+app.set('trust proxy', 1)
 
 app.use(session({
     secret: SESSION_SECRET,
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    store: new MongoDBStore({
+        uri: process.env.MONGODB_URI,
+        collection: 'mySessions'
+    }),
+    cookie: {
+        sameSite: 'none',
+        secure: true
+    }
 }))
 
 
