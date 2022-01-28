@@ -72,6 +72,19 @@ app.get('/', (req, res) =>{
   res.send('hello')
 })
 
+
+app.get('/yelp/', (req, res) => {
+  const searchRequest = {
+    all: req.params,
+    location: 'chicago'
+  }
+
+  client.search(searchRequest)
+  .then(response => response.jsonBody.businesses)
+  .then(data => res.send(data));
+})
+
+
 app.get('/yelp/:term', (req, res) => {
   const searchRequest = {
     term: req.params.term + '+restaurants',
