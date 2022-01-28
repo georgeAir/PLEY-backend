@@ -32,20 +32,20 @@ app.use(cors(corsOptions))
 
 const SESSION_SECRET = process.env.SESSION_SECRET
 
-app.set('trust proxy', 1)
+// app.set('trust proxy', 1)
 
 app.use(session({
     secret: SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    store: new MongoDBStore({
-        uri: process.env.MONGODB_URI,
-        collection: 'mySessions'
-    }),
-    cookie: {
-        sameSite: 'none',
-        secure: true
-    }
+    // store: new MongoDBStore({
+    //     uri: process.env.MONGODB_URI,
+    //     collection: 'mySessions'
+    // }),
+    // cookie: {
+    //     sameSite: 'none',
+    //     secure: true
+    // }
 }))
 
 
@@ -63,6 +63,7 @@ db.on('connected', () => {console.log('mongo connected') })
 db.on('disconnected', () => {console.log('mongo disconnected') })
 
 const isAuthenticated = (req, res, next) => {
+    console.log(req.session.currentUser)
     if(req.session.currentUser){
         next()
     }else {
@@ -78,26 +79,26 @@ app.use(express.json())
 //controllers
 app.use('/restaurant', isAuthenticated, require('./controllers/restaurantsController'));
 app.use('/bars', isAuthenticated, require('./controllers/barsController'));
-app.use('/users', require('./controllers/usersController'));
+app.use('/users',  require('./controllers/usersController'));
 
 app.get('/', (req, res) =>{
   res.send('hello')
 })
 
 
-app.get('/yelp/', (req, res) => {
-  const searchRequest = {
-    all: req.params.term,
-    location: 'chicago'
-  }
+// app.get('/yelp/', isAuthenticated, (req, res) => {
+//   const searchRequest = {
+//     all: req.params.term,
+//     location: 'chicago'
+//   }
 
-  client.search(searchRequest)
-  .then(response => response.jsonBody.businesses)
-  .then(data => res.send(data));
-})
+//   client.search(searchRequest)
+//   .then(response => response.jsonBody.businesses)
+//   .then(data => res.send(data));
+// })
 
 
-app.get('/yelp/:term', (req, res) => {
+app.get('/yelp/:term', isAuthenticated, (req, res) => {
   const searchRequest = {
     term: req.params.term,
     location: 'chicago'
