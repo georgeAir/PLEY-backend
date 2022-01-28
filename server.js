@@ -75,7 +75,7 @@ app.get('/', (req, res) =>{
 
 app.get('/yelp/', (req, res) => {
   const searchRequest = {
-    all: req.params,
+    all: req.params.term,
     location: 'chicago'
   }
 
@@ -87,7 +87,7 @@ app.get('/yelp/', (req, res) => {
 
 app.get('/yelp/:term', (req, res) => {
   const searchRequest = {
-    term: req.params.term + '+restaurants',
+    term: req.params.term,
     location: 'chicago'
   }
 
