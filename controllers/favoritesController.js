@@ -1,5 +1,5 @@
-const express = require('express')
-const favorites = express.Router()
+const express = require('express');
+const favorites = express.Router();
 const Favorites = require('../models/favoritesModel')
 
 
@@ -17,9 +17,8 @@ favorites.get('/', (req, res) => {
 
 ///////// CREATE/POST ROUTE  //////////////
 favorites.post('/', (req, res) => {
-  Favorites.create(req.body, (error, createdFavorite) =>
-  {
-    if (error) {
+  Favorites.create(req.body, (error, createdFavorite) => {
+    if(error) {
       res.status(400).json({error: error.message})
     }else{
     res.status(200).json(createdFavorite)
@@ -70,4 +69,4 @@ favorites.patch('/addlikes/:id', (req, res) => {
 
 
 
-module.exports = favorites
+module.exports = favorites;
