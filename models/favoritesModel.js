@@ -1,6 +1,6 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
-const {Schema, model} = mongoose
+const {Schema, model} = mongoose;
 
 
 const favoritesSchema = new Schema({
@@ -16,6 +16,6 @@ const favoritesSchema = new Schema({
 // will initialize the collection
 // collection name
 
-const Favorites = model('Favorites', favoritesSchema)
+// const Favorites = model('Favorites', favoritesSchema)
 
-module.exports = Favorites
+module.exports = model('Favorites', favoritesSchema)
