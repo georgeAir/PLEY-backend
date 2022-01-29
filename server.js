@@ -5,7 +5,6 @@ const mongoose = require('mongoose');
 const MONGODB_URI = process.env.MONGODB_URI
 const cors = require('cors');
 const session = require('express-session')
-require('dotenv').config()
 const yelp = require('yelp-fusion');
 const apiKey = process.env.REACT_APP_API_KEY
 const PORT = process.env.PORT;
@@ -14,7 +13,7 @@ const MongoDBStore = require('connect-mongodb-session')(session)
 const client = yelp.client(apiKey);
 
 //SETUP CORS middleware
-const whitelist = ['http://localhost:3000', 'https://pley-frontend.herokuapp.com']
+const whitelist = ['http://localhost:3001', 'https://pley-frontend.herokuapp.com']
 const corsOptions = {
     origin: (origin, callback) => {
         if(whitelist.indexOf(origin) !== -1 || !origin){
@@ -77,28 +76,27 @@ app.use(express.json())
 
 
 //controllers
-app.use('/favorites', isAuthenticated, require('./controllers/favoritesController'));
-app.use('/bars', isAuthenticated, require('./controllers/barsController'));
+app.use('/favorites', require('./controllers/favoritesController'));
+app.use('/bars', require('./controllers/barsController'));
 app.use('/users',  require('./controllers/usersController'));
 
 app.get('/', (req, res) =>{
   res.send('hello')
 })
 
+app.get('/yelp/', (req, res) => {
+  const searchRequest = {
+    all: req.params.term,
+    location: 'chicago'
+  }
 
-// app.get('/yelp/', isAuthenticated, (req, res) => {
-//   const searchRequest = {
-//     all: req.params.term,
-//     location: 'chicago'
-//   }
-
-//   client.search(searchRequest)
-//   .then(response => response.jsonBody.businesses)
-//   .then(data => res.send(data));
-// })
+  client.search(searchRequest)
+  .then(response => response.jsonBody.businesses)
+  .then(data => res.send(data));
+})
 
 
-app.get('/yelp/:term', isAuthenticated, (req, res) => {
+app.get('/yelp/:term', (req, res) => {
   const searchRequest = {
     term: req.params.term,
     location: 'chicago'
