@@ -38,6 +38,8 @@ favorites.get('/seed', async (req, res) => {
     res.send(err.message)
   }
 })
+
+
 ///////// INDEX ROUTE  //////////////
 favorites.get('/', (req, res) => {
   Favorites.find({}, (error, foundFavorites) => {

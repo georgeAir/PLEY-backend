@@ -6,9 +6,9 @@ const {Schema, model} = mongoose
 const favoritesSchema = new Schema({
   name: {type: String, required: false},
   price: String,
-  likes: {type: Number, default: 0},
+  likes: {type: Number, default: 1},
   img: {type: String, required: false},
-  Phone: {type: String, required: false},
+  phone: {type: Number, required: false},
   display_address: {type: String, required: false},
 },{timestamps:true })
 
