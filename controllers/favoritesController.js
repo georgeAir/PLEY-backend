@@ -3,7 +3,41 @@ const favorites = express.Router();
 const Favorites = require('../models/favoritesModel')
 
 
+favorites.get('/seed', async (req, res) => {
+  const newFavorites =
+    [
+      {
+        name: "Reggies Chicago",
+        price: "$",
+        likes: 30,
+        img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRV1zDgqcR4VW47tqR6AVwQRTiuvdc1wl-xIfOuy8_XzxLIY-ilMO4DBq4LFnno46jXkvk&usqp=CAU",
+        Phone: "(312)949-0120",
+        display_address: "2105 S State St, Chicago, IL 60616",
 
+      }, {
+        name: 'Crystals',
+        price: "$",
+        likes: 10,
+        img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-3U1zse5bsRfkuJaLkINU7QTWVe2iTxKz9q_z9rWUx-hflG-GbLiZ75LxYoFLqpBDBIY&usqp=CAU",
+        Phone: "(708) 862-0489",
+        display_address: "1727 Sibley Blvd, Calumet City, IL 60409",
+      }, {
+        name: 'Buffalo Joes',
+        price: "$",
+        likes: 20,
+        img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRg_7Wy1PJjsxjS8pIBS9imKxx73V0iaHLtd09rtIewYv_PXxFFEaLLbFb3_nJjV3xCpho&usqp=CAU",
+        Phone: "773-764-7300",
+        display_address: "1841 W. Howard St., Chicago, IL",
+      }
+    ]
+
+  try {
+    const seedItems = await Favorites.create(newFavorites)
+    res.send(seedItems)
+  } catch (err) {
+    res.send(err.message)
+  }
+})
 ///////// INDEX ROUTE  //////////////
 favorites.get('/', (req, res) => {
   Favorites.find({}, (error, foundFavorites) => {

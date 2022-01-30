@@ -5,7 +5,7 @@ const {Schema, model} = mongoose
 
 const favoritesSchema = new Schema({
   name: {type: String, required: false},
-  price: Number,
+  price: String,
   likes: {type: Number, default: 0},
   img: {type: String, required: false},
   Phone: {type: String, required: false},

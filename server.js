@@ -13,7 +13,7 @@ const MongoDBStore = require('connect-mongodb-session')(session)
 const client = yelp.client(apiKey);
 
 //SETUP CORS middleware
-const whitelist = ['http://localhost:3001', 'https://pley-frontend.herokuapp.com']
+const whitelist = ['http://localhost:3000', 'https://pley-frontend.herokuapp.com']
 const corsOptions = {
     origin: (origin, callback) => {
         if(whitelist.indexOf(origin) !== -1 || !origin){
